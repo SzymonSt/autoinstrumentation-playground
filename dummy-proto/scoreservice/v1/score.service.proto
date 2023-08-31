@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "profileservice/v1/profile.service.proto";
+
+option go_package = "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice/v1";
+option java_package = "com.szymonst.scoreservice.v1";
+option java_outer_classname = "ScoreServiceProto";
+
+service ScoreService {
+    rpc SubmitScore (ScoreRequest) returns (ScoreResponse);
+}
+
+message ScoreRecord{
+    profile.Profile userProfile = 1;
+    int32 score = 2;
+    google.protobuf.Timestamp time = 3;
+}
+
+message ScoreRequest {
+    profile.Profile userProfile = 1;
+    int32 score = 2;
+}
+
+message ScoreResponse {
+    ScoreRecord scoreRecord = 1;
+}
