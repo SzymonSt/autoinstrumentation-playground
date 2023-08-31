@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  #Frontend application
+  dummy-frontend:
+    networks:
+      - dummy-network
+  
+  #Simple api gateway
+  dummy-gateway:
+    networks:
+      - dummy-network
+
+  #Profile service
+  dummy-profile-service:
+    networks:
+      - dummy-network
+  dummy-profile-database:
+    networks:
+      - dummy-network
+
+  #Score service with autoinstrumenations tool attached
+  dummy-score-service:
+    networks:
+      - dummy-network
+  dummy-score-service-autoinstrumented:
+    networks:
+      - dummy-network
+  dummy-score-service-database:
+    networks:
+      - dummy-network
+  
+  
+
+networks:
+  dummy-network:
+    driver: bridge
+  
