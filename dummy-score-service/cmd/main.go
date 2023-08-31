@@ -6,7 +6,7 @@ import (
 	"scoreservice/pkg/config"
 	"scoreservice/pkg/db"
 
-	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice/v1/"
+	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice/v1/scoreservice/v1"
 	"google.golang.org/grpc"
 )
 
