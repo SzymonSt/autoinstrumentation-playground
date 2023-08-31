@@ -3,13 +3,15 @@ package grpc_server
 import (
 	"context"
 
-	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice/v1/"
+	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice-go/v1"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type ScoreServiceServer struct {
 	dbClient *mongo.Client
 	dbName   string
+
+	scoreservicepb.UnimplementedScoreServiceServer
 }
 
 func NewScoreServiceServer(dbClient *mongo.Client) *ScoreServiceServer {
@@ -19,12 +21,10 @@ func NewScoreServiceServer(dbClient *mongo.Client) *ScoreServiceServer {
 	}
 }
 
-func (ss *ScoreServiceServer) Get(ctx context.Context, req *scoreservicepb.GetRequest) (*scoreservicepb.GetResponse, error) {
+func (ss *ScoreServiceServer) SubmitScore(ctx context.Context, req *scoreservicepb.ScoreRequest) (*scoreservicepb.ScoreResponse, error) {
 	var err error
-	var survey *scoreservicepb.Survey
-	return &scoreservicepb.GetResponse{
-		ResponseCode: 0,
-		Survey:       survey,
-		Err:          err,
-	}, nil
+	var record *scoreservicepb.ScoreRecord
+	return &scoreservicepb.ScoreResponse{
+		ScoreRecord: record,
+	}, err
 }

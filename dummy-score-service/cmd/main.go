@@ -5,8 +5,9 @@ import (
 	"net"
 	"scoreservice/pkg/config"
 	"scoreservice/pkg/db"
+	"scoreservice/pkg/grpc_server"
 
-	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice/v1/scoreservice/v1"
+	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice-go/v1"
 	"google.golang.org/grpc"
 )
 
@@ -27,5 +28,12 @@ func main() {
 		panic(err)
 	}
 	grpcServer := grpc.NewServer()
-	scoreservicepb.RegisterScoreServiceServer(grpcServer, &ScoreServiceServer{dbClient: dbClient})
+	scoreservicepb.RegisterScoreServiceServer(grpcServer,
+		grpc_server.NewScoreServiceServer(dbClient),
+	)
+	fmt.Printf("Starting gRPC server on port %s\n", cfSrv.ServerPort)
+	err = grpcServer.Serve(listener)
+	if err != nil {
+		panic(err)
+	}
 }
