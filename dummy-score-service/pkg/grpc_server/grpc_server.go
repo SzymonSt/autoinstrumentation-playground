@@ -27,10 +27,9 @@ func (ss *ScoreServiceServer) SubmitScore(ctx context.Context, req *scoreservice
 	record := &scoreservicepb.ScoreRecord{
 		UserProfileName: req.UserProfile,
 		Score:           req.Score,
-		Time:            time.Now(),
+		Time:            time.Now().Unix(),
 	}
 	ss.dbClient.Database(ss.dbName).Collection("scores").InsertOne(ctx, record)
-
 	return &scoreservicepb.ScoreResponse{
 		ScoreRecord: record,
 	}, err
