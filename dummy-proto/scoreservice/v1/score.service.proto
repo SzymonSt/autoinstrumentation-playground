@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 option go_package = "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice/v1";
 option java_package = "com.szymonst.scoreservice.v1";
 option java_outer_classname = "ScoreServiceProto";
@@ -13,7 +11,7 @@ service ScoreService {
 message ScoreRecord{
     string userProfileName = 1;
     int32 score = 2;
-    google.protobuf.Timestamp time = 3;
+    int64 time = 3;
 }
 
 message ScoreRequest {
