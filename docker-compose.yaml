@@ -30,15 +30,23 @@ services:
       - dummy-network
 
   #Score service with data store and autoinstrumenations tool attached
-  # dummy-score-service:
-  #   networks:
-  #     - dummy-network
+  dummy-score-service:
+    extends:
+      file: ./dummy-score-service/docker-compose.yaml
+      service: dummy-score-service
+    depends_on:
+      - dummy-score-database
+    networks:
+      - dummy-network
   # dummy-score-service-autoinstrumented:
   #   networks:
   #     - dummy-network
-  # dummy-score-service-database:
-  #   networks:
-  #     - dummy-network
+  dummy-score-database:
+    extends:
+      file: ./dummy-score-service/docker-compose.yaml
+      service: dummy-score-database
+    networks:
+      - dummy-network
   
   
 
