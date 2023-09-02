@@ -49,7 +49,7 @@ namespace dummy_gateway{
                 Console.WriteLine(trimmedBuffer);
                 requestPayload = JsonSerializer.Deserialize<SetProfileRequest>(new string(trimmedBuffer));
             } catch (Exception e){
-                Console.WriteLine(e);
+                return new SetProfileResponse{};
             }
             var resp = _profileClient.SetProfile(requestPayload);
             return resp;
@@ -57,9 +57,22 @@ namespace dummy_gateway{
 
         [HttpPut]
         [Route("/submit_score")]
-        public string SubmitScore(){
-            ScoreRequest request = new ScoreRequest();
-            return "";
+        public async Task<ScoreResponse> SubmitScore(){
+            var body = Request.Body;
+            ScoreRequest requestPayload = new ScoreRequest();
+            char[] buffer = new char[2048];
+            try{
+                StreamReader reader = new StreamReader(body);
+                var charNum = await reader.ReadAsync(buffer);
+                char[] trimmedBuffer = new char[charNum];
+                Array.Copy(buffer, trimmedBuffer, charNum);
+                Console.WriteLine(trimmedBuffer);
+                requestPayload = JsonSerializer.Deserialize<ScoreRequest>(new string(trimmedBuffer));
+            } catch (Exception e){
+                return new ScoreResponse{};
+            }
+            var resp =  _scoreClient.SubmitScore(requestPayload);
+            return resp;
         }
     }
 }
