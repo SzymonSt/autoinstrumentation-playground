@@ -2,33 +2,43 @@ version: '3'
 
 services:
   #Frontend application
-  dummy-frontend:
-    networks:
-      - dummy-network
+  # dummy-frontend:
+  #   networks:
+  #     - dummy-network
   
   #Simple api gateway
-  dummy-gateway:
-    networks:
-      - dummy-network
+  # dummy-gateway:
+  #   networks:
+  #     - dummy-network
 
-  #Profile service
+  #Profile service with data store
   dummy-profile-service:
+    extends:
+      file: ./dummy-profile-service/docker-compose.yaml
+      service: dummy-profile-service
+    env_file:
+      - ./dummy-profile-service/.env
+    depends_on:
+      - dummy-profile-database
     networks:
       - dummy-network
   dummy-profile-database:
+    extends:
+      file: ./dummy-profile-service/docker-compose.yaml
+      service: dummy-profile-database
     networks:
       - dummy-network
 
-  #Score service with autoinstrumenations tool attached
-  dummy-score-service:
-    networks:
-      - dummy-network
-  dummy-score-service-autoinstrumented:
-    networks:
-      - dummy-network
-  dummy-score-service-database:
-    networks:
-      - dummy-network
+  #Score service with data store and autoinstrumenations tool attached
+  # dummy-score-service:
+  #   networks:
+  #     - dummy-network
+  # dummy-score-service-autoinstrumented:
+  #   networks:
+  #     - dummy-network
+  # dummy-score-service-database:
+  #   networks:
+  #     - dummy-network
   
   
 
