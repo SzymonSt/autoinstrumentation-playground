@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from profile import service_pb2 as profile_dot_service__pb2
+from . import profileservice_pb2 as profileservice__pb2
 
 
 class ProfileServiceStub(object):
@@ -16,13 +16,13 @@ class ProfileServiceStub(object):
         """
         self.GetProfile = channel.unary_unary(
                 '/profile.ProfileService/GetProfile',
-                request_serializer=profile_dot_service__pb2.GetProfileRequest.SerializeToString,
-                response_deserializer=profile_dot_service__pb2.GetProfileResponse.FromString,
+                request_serializer=profileservice__pb2.GetProfileRequest.SerializeToString,
+                response_deserializer=profileservice__pb2.GetProfileResponse.FromString,
                 )
-        self.SerProfile = channel.unary_unary(
-                '/profile.ProfileService/SerProfile',
-                request_serializer=profile_dot_service__pb2.SetProfileRequest.SerializeToString,
-                response_deserializer=profile_dot_service__pb2.SetProfileResponse.FromString,
+        self.SetProfile = channel.unary_unary(
+                '/profile.ProfileService/SetProfile',
+                request_serializer=profileservice__pb2.SetProfileRequest.SerializeToString,
+                response_deserializer=profileservice__pb2.SetProfileResponse.FromString,
                 )
 
 
@@ -35,7 +35,7 @@ class ProfileServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def SerProfile(self, request, context):
+    def SetProfile(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -46,13 +46,13 @@ def add_ProfileServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetProfile': grpc.unary_unary_rpc_method_handler(
                     servicer.GetProfile,
-                    request_deserializer=profile_dot_service__pb2.GetProfileRequest.FromString,
-                    response_serializer=profile_dot_service__pb2.GetProfileResponse.SerializeToString,
+                    request_deserializer=profileservice__pb2.GetProfileRequest.FromString,
+                    response_serializer=profileservice__pb2.GetProfileResponse.SerializeToString,
             ),
-            'SerProfile': grpc.unary_unary_rpc_method_handler(
-                    servicer.SerProfile,
-                    request_deserializer=profile_dot_service__pb2.SetProfileRequest.FromString,
-                    response_serializer=profile_dot_service__pb2.SetProfileResponse.SerializeToString,
+            'SetProfile': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetProfile,
+                    request_deserializer=profileservice__pb2.SetProfileRequest.FromString,
+                    response_serializer=profileservice__pb2.SetProfileResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -76,13 +76,13 @@ class ProfileService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/profile.ProfileService/GetProfile',
-            profile_dot_service__pb2.GetProfileRequest.SerializeToString,
-            profile_dot_service__pb2.GetProfileResponse.FromString,
+            profileservice__pb2.GetProfileRequest.SerializeToString,
+            profileservice__pb2.GetProfileResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def SerProfile(request,
+    def SetProfile(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +92,8 @@ class ProfileService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/profile.ProfileService/SerProfile',
-            profile_dot_service__pb2.SetProfileRequest.SerializeToString,
-            profile_dot_service__pb2.SetProfileResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/profile.ProfileService/SetProfile',
+            profileservice__pb2.SetProfileRequest.SerializeToString,
+            profileservice__pb2.SetProfileResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
