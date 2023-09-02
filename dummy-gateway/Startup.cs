@@ -29,15 +29,14 @@ namespace dummy_gateway
         {
 
             services.AddControllers();
+            Console.WriteLine(Configuration.GetValue<string>("ProfileServiceAddress"));
             services.AddGrpcClient<ProfileService.ProfileServiceClient>(options =>
             {
-                // options.Address = new Uri(Configuration.GetValue<string>("ProfileServiceAddress"));
-                options.Address = new Uri("http://localhost:8089");
+                options.Address = new Uri(Configuration.GetValue<string>("ProfileServiceAddress"));
             });
             services.AddGrpcClient<ScoreService.ScoreServiceClient>(options =>
             {
-                // options.Address = new Uri(Configuration.GetValue<string>("ScoreServiceAddress"));
-                options.Address = new Uri("http://localhost:8081");
+                options.Address = new Uri(Configuration.GetValue<string>("ScoreServiceAddress"));
             });
             services.AddSwaggerGen(c =>
             {

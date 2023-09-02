@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  dummy-gateway:
+    image: 322456/ap/dummy-gateway:latest
+    ports:
+      - 80:80

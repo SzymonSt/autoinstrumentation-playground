@@ -7,9 +7,15 @@ services:
   #     - dummy-network
   
   #Simple api gateway
-  # dummy-gateway:
-  #   networks:
-  #     - dummy-network
+  dummy-gateway:
+    extends:
+      file: ./dummy-gateway/docker-compose.yaml
+      service: dummy-gateway
+    depends_on:
+      - dummy-profile-service
+      - dummy-score-service
+    networks:
+      - dummy-network
 
   #Profile service with data store
   dummy-profile-service:
