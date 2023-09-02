@@ -2,6 +2,7 @@ package grpc_server
 
 import (
 	"context"
+	"time"
 
 	scoreservicepb "github.com/SzymonSt/autoinstrumentation-playground/dummy-proto/scoreservice-go/v1"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,7 +24,13 @@ func NewScoreServiceServer(dbClient *mongo.Client) *ScoreServiceServer {
 
 func (ss *ScoreServiceServer) SubmitScore(ctx context.Context, req *scoreservicepb.ScoreRequest) (*scoreservicepb.ScoreResponse, error) {
 	var err error
-	var record *scoreservicepb.ScoreRecord
+	record := &scoreservicepb.ScoreRecord{
+		UserProfileName: req.UserProfile,
+		Score:           req.Score,
+		Time:            time.Now(),
+	}
+	ss.dbClient.Database(ss.dbName).Collection("scores").InsertOne(ctx, record)
+
 	return &scoreservicepb.ScoreResponse{
 		ScoreRecord: record,
 	}, err
