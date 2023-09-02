@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="../dummy-proto/scoreservice/v1/score.service.proto" GrpcServices="Client"/>
+    <Protobuf Include="../dummy-proto/scoreservice/v1/score.service.proto" GrpcServices="Client" />
+    <Protobuf Include="../dummy-proto/profileservice/v1/profileservice.proto" GrpcServices="Client" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Google.Protobuf" Version="3.24.2" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.55.0" />
