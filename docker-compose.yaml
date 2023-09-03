@@ -14,6 +14,8 @@ services:
     depends_on:
       - dummy-profile-service
       - dummy-score-service
+      - otel-collector
+      - jaeger
     networks:
       - dummy-network
 
@@ -59,6 +61,8 @@ services:
     extends:
       file: ./docker/observability-stack/opentelemetry-collector/docker-compose.yaml
       service: otel-collector
+    depends_on:
+      - jaeger
     networks:
       - dummy-network
   
