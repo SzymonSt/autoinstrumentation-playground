@@ -28,6 +28,8 @@ services:
       - ./dummy-profile-service/.env
     depends_on:
       - dummy-profile-database
+      - otel-collector
+      - jaeger
     networks:
       - dummy-network
   dummy-profile-database:
