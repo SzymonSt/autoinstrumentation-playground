@@ -53,7 +53,22 @@ services:
       service: dummy-score-database
     networks:
       - dummy-network
+
+  #OpenTelemetry collector
+  otel-collector:
+    extends:
+      file: ./docker/observability-stack/opentelemetry-collector/docker-compose.yaml
+      service: otel-collector
+    networks:
+      - dummy-network
   
+  #Jaeger
+  jaeger:
+    extends:
+      file: ./docker/observability-stack/jaeger/docker-compose.yaml
+      service: jaeger-tracing
+    networks:
+      - dummy-network
   
 
 networks:
