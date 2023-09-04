@@ -48,9 +48,16 @@ services:
       - dummy-score-database
     networks:
       - dummy-network
-  # dummy-score-service-autoinstrumented:
-  #   networks:
-  #     - dummy-network
+  dummy-score-instrumentation:
+    extends:
+      file: ./dummy-score-service/docker-compose.yaml
+      service: dummy-score-instrumentation
+    depends_on:
+      - dummy-score-service
+      - otel-collector
+      - jaeger
+    networks:
+      - dummy-network
   dummy-score-database:
     extends:
       file: ./dummy-score-service/docker-compose.yaml
@@ -80,4 +87,7 @@ services:
 networks:
   dummy-network:
     driver: bridge
+
+volumes:
+  shared-instrumentation-data:
   
