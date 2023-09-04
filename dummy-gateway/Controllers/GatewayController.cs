@@ -37,7 +37,7 @@ namespace dummy_gateway{
 
         [HttpPut]
         [Route("/set_profile")]
-        public async Task<SetProfileResponse> SetProfile(string id){
+        public async Task<SetProfileResponse> SetProfile(){
             var body = Request.Body;
             SetProfileRequest requestPayload = new SetProfileRequest();
             char[] buffer = new char[2048];

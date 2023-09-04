@@ -8,7 +8,7 @@ class ProfileServiceServicer(profileservice_pb2_grpc.ProfileServiceServicer):
     def __init__(self, db_conn) -> None:
         self.db_conn = db_conn
 
-    def GetProfile(
+    async def GetProfile(
             self, request: profileservice_pb2.GetProfileRequest, 
             context: grpc.ServicerContext
         ) -> profileservice_pb2.GetProfileResponse:
@@ -28,7 +28,7 @@ class ProfileServiceServicer(profileservice_pb2_grpc.ProfileServiceServicer):
                 email=records[2]
         ))
 
-    def SetProfile(
+    async def SetProfile(
             self, request, context
         ) -> profileservice_pb2.SetProfileResponse:
         name = request.name
