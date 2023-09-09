@@ -2,7 +2,7 @@ version: '3'
 
 services:
   dummy-profile-service:
-    image: 322456/ap/dummy-profile-service:latest
+    image: 322456/dummy-profile-service:latest
     ports:
       - 8089:8089
   dummy-profile-database:
