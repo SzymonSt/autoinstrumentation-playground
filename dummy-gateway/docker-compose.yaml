@@ -11,4 +11,4 @@ services:
       OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES: dummy-gateway
       OTEL_PROPAGATORS: tracecontext,baggage
     ports:
-      - 80:80
+      - 8088:80
