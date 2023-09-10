@@ -64,6 +64,24 @@ services:
       service: dummy-score-database
     networks:
       - dummy-network
+  dummy-score-service-http:
+    extends:
+      file: ./dummy-score-service-http/docker-compose.yaml
+      service: dummy-score-service-http
+    depends_on:
+      - dummy-score-database
+    networks:
+      - dummy-network
+  dummy-score-instrumentation-http:
+    extends:
+      file: ./dummy-score-service-http/docker-compose.yaml
+      service: dummy-score-instrumentation-http
+    depends_on:
+      - dummy-score-service-http
+      - otel-collector
+      - jaeger
+    networks:
+      - dummy-network
 
   #OpenTelemetry collector
   otel-collector:

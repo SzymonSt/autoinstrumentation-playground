@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Http;
 using Profile;
 
 namespace dummy_gateway
@@ -37,6 +38,9 @@ namespace dummy_gateway
             services.AddGrpcClient<ScoreService.ScoreServiceClient>(options =>
             {
                 options.Address = new Uri(Configuration.GetValue<string>("ScoreServiceAddress"));
+            });
+            services.AddHttpClient("ScoreServiceHttp", client => {
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("ScoreServiceAddressHttp"));
             });
             services.AddSwaggerGen(c =>
             {
