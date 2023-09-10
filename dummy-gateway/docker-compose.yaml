@@ -2,12 +2,13 @@ version: '3'
 
 services:
   dummy-gateway:
-    image: 322456/ap/dummy-gateway:latest
+    image: 322456/dummy-gateway:latest
     env_file:
       - ./.env
     environment:
-      OTEL_SERVICE_NAME: "dummy-gateway"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://autoinstrumentation-playground_otel-collector_1:4318"
-      OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES: "dummy-gateway"
+      OTEL_SERVICE_NAME: dummy-gateway
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://autoinstrumentation-playground-otel-collector-1:4318
+      OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES: dummy-gateway
+      OTEL_PROPAGATORS: tracecontext,baggage
     ports:
-      - 80:80
+      - 8088:80

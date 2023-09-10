@@ -1,6 +1,6 @@
     exporters:
       jaeger:
-        endpoint: 'autoinstrumentation-playground_jaeger_1:14250'
+        endpoint: 'autoinstrumentation-playground-jaeger-1:14250'
         tls:
           insecure: true
       logging: {}
