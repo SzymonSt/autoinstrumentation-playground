@@ -2,11 +2,13 @@ import grpc
 
 from profileservice_py import profileservice_pb2
 from profileservice_py import profileservice_pb2_grpc
+from opentelemetry import trace
 
 class ProfileServiceServicer(profileservice_pb2_grpc.ProfileServiceServicer):
 
     def __init__(self, db_conn) -> None:
         self.db_conn = db_conn
+        self.tracer = trace.get_tracer(__name__)
 
     async def GetProfile(
             self, request: profileservice_pb2.GetProfileRequest, 
@@ -33,6 +35,7 @@ class ProfileServiceServicer(profileservice_pb2_grpc.ProfileServiceServicer):
         ) -> profileservice_pb2.SetProfileResponse:
         name = request.name
         email = request.email
+        trace.get_current_span().set_attribute("api-version","v1")
         try:
             curs = self.db_conn.cursor()
             curs.execute(
