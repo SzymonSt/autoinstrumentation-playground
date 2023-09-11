@@ -36,3 +36,7 @@ dependencies:
     version: 0.62.2
     repository: https://open-telemetry.github.io/opentelemetry-helm-charts
     condition: opentelemetry-collector.enabled
+  - name: odigos
+    version: 0.1.0
+    repository: https://odigos.github.io/odigos-helm-charts
+    condition: odigos.enabled

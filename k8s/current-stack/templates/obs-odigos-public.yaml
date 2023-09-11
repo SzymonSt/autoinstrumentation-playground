@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: obs-otel-collector-public-http
+  name: obs-odigos-public
 spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 4318
+    targetPort: 3000
   selector:
     app.kubernetes.io/instance: obs
-    app.kubernetes.io/name: opentelemetry-collector
+    app.kubernetes.io/name: odigos
   type: LoadBalancer
