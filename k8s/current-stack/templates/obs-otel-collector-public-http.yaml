@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: obs-otel-collector-public-http
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 4318
+  selector:
+    app.kubernetes.io/instance: obs
+    app.kubernetes.io/name: opentelemetry-collector
+  type: LoadBalancer

@@ -1,0 +1,198 @@
+jaeger-operator:
+  enabled: true
+  jaeger:
+    create: false
+
+jaeger:
+  namespace: "observability-stack"
+  provisionDataStore:
+    cassandra: false
+    elasticsearch: false
+    kafka: false
+  allInOne:
+    enabled: true
+    extraEnv:
+    - name: ES_SERVER_URLS
+      value: "http://elasticsearch-es-internal-http.observability-stack.svc.cluster.local:9200"
+    - name: ES_USERNAME
+      value: elastic
+    - name: ES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: elasticsearch-es-elastic-user
+          key: elastic
+    - name: SPAN_STORAGE_TYPE
+      value: elasticsearch
+
+  agent:
+    enabled: false
+  collector:
+    enabled: false
+  query:
+    enabled: false
+  storage:
+    type: elasticsearch
+    elasticsearch:
+      scheme: http
+      host: elasticsearch-es-internal-http.observability-stack.svc.cluster.local
+      port: 9200
+      anonymous: false
+      user: elastic
+      usePassword: true
+      existingSecret: elasticsearch-es-elastic-user
+      existingSecretKey: elastic
+      extraEnv:
+      - name: ES_SERVER_URLS
+        value: "http://elasticsearch-es-internal-http.observability-stack.svc.cluster.local:9200"
+      - name: ES_USERNAME
+        value: elastic
+
+prometheus:
+  enabled: true
+  forceNamespace: "observability-stack"
+  alertmanager:
+    enabled: false
+  prometheus-node-exporter:
+    enabled: false
+  prometheus-pushgateway:
+    enabled: false
+
+grafana:
+  enabled: true
+  namespaceOverride: "observability-stack"
+  testFramework:
+    enabled: false
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://{{ .Release.Name }}-prometheus-server.{{ .Release.Namespace }}.svc.cluster.local
+        access: proxy
+        isDefault: true
+      - name: Loki
+        type: loki
+        orgId: 1
+        access: proxy
+        url: http://obs-loki.{{ .Release.Namespace }}.svc.cluster.local:3100
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          maxLines: 1000
+
+loki:
+  enabled: true
+  write:
+    replicas: 0
+  read:
+    replicas: 0
+  backend:
+    replicas: 0
+  test:
+    enabled: false
+  monitoring:
+    lokiCanary:
+      enabled: false
+  loki:
+    auth_enabled: false
+    singleBinary:
+      replicas: 1
+    storage:
+      type: filesystem
+    commonConfig:
+      replication_factor: 1
+    rulerConfig:
+      storage:
+        type: local
+        local:
+          directory: /tmp/rules 
+
+opentelemetry-collector:
+  enabled: true
+  mode: "deployment"
+  config:
+    exporters:
+      jaeger:
+        endpoint: '{{ .Release.Name }}-jaeger-collector.{{ .Release.Namespace }}.svc.cluster.local:14250'
+        tls:
+          insecure: true
+      prometheus:
+        endpoint: 0.0.0.0:8889
+      loki:
+        endpoint: "loki-gateway.{{ .Release.Namespace }}.svc.cluster.local"
+      logging:
+    extensions:
+      health_check: {}
+    processors:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: "0.0.0.0:4317"
+          http:
+            endpoint: "0.0.0.0:4318"
+            cors:
+              allowed_origins:
+              - '*'
+    service:
+      telemetry: {}
+      extensions: [health_check]
+      pipelines:
+        logs:
+          receivers: [otlp]
+          processors: []
+          exporters: [loki]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [prometheus]
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [jaeger]
+
+eck-stack:
+  enabled: true
+  eck-elasticsearch:
+    enabled: true
+    version: 6.8.1-SNAPSHOT
+    annotations:
+      eck.k8s.elastic.co/license: basic
+    nodeSets:
+    - name: default
+      count: 1
+      config:
+        node.store.allow_mmap: false
+      volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+    http:
+      tls:
+        selfSignedCertificate:
+          disabled: true
+      service:
+        metadata:
+          labels:
+            app.kubernetes.io/name: elasticsearch
+            app.kubernetes.io/instance: obs
+        spec:
+          type: LoadBalancer
+  eck-agent:
+    enabled: false
+  eck-fleet-server:
+    enabled: false
+  eck-beats:
+    enabled: false
+  eck-kibana:
+    enabled: false
+
+eck-operator:
+  enabled: true
+  installCRDs: false
+

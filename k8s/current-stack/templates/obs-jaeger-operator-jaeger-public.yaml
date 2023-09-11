@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: obs-jaeger-operator-jaeger-public
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 16686
+  selector:
+    app.kubernetes.io/component: all-in-one
+    app.kubernetes.io/instance: obs
+    app.kubernetes.io/name: jaeger
+  type: LoadBalancer
