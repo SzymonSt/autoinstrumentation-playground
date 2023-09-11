@@ -2,7 +2,7 @@ namespace: dummy-app-development
 
 dummy-gateway:
   deployment: dummy-gateway
-  image: 322456/dummy-gateway:latest
+  image: 322456/dummy-gateway-remote:latest
   replicas: 1
   port: 80
   labels:
@@ -20,7 +20,7 @@ dummy-score-service:
 
 dummy-profile-service:
   deployment: dummy-profile-service
-  image: 322456/dummy-profile-service:latest
+  image: 322456/dummy-profile-service-remote:latest
   replicas: 1
   port: 8089
   labels:
