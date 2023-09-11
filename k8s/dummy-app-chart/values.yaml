@@ -1,0 +1,28 @@
+namespace: dummy-app-development
+
+dummy-gateway:
+  deployment: dummy-gateway
+  image: 322456/dummy-gateway:latest
+  replicas: 1
+  port: 80
+  labels:
+    app: dummy-gateway
+    env: development
+
+dummy-score-service:
+  deployment: dummy-score-service
+  image: 322456/dummy-score-service:latest
+  replicas: 1
+  port: 8081
+  labels:
+    app: dummy-score-service
+    env: development
+
+dummy-profile-service:
+  deployment: dummy-profile-service
+  image: 322456/dummy-profile-service:latest
+  replicas: 1
+  port: 8089
+  labels:
+    app: dummy-profile-service
+    env: development
