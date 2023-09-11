@@ -2,6 +2,7 @@ import grpc
 import asyncio
 from profileservice_py import profileservice_pb2_grpc
 from profileservice_server.server import ProfileServiceServicer
+from opentelemetry import trace
 from config import server_config
 from config import database
 
