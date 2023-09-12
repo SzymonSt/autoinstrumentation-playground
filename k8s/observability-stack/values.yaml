@@ -65,6 +65,6 @@ opentelemetry-collector:
           processors: []
           exporters: [jaeger]
 
-osigos:
+odigos:
   enabled: true
 

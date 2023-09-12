@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.dummyprofileservice.name }}-database
+  namespace: {{ .Values.namespace }}
+  {{- with .Values.dummyprofileservice.database.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: 1
+  selector:
+    {{- with .Values.dummyprofileservice.database.labels }}
+    matchLabels:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  template:
+    metadata:
+      {{- with .Values.dummyprofileservice.database.labels }}
+      labels:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+    spec:
+      containers:
+        - name: {{ .Values.dummyprofileservice.name }}
+          image: {{ .Values.dummyprofileservice.database.image }}
+          volumeMounts:
+            - name: database-migrations
+              mountPath: /docker-entrypoint-initdb.d
+          env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: password
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: dbname
+          ports:
+            - name: http
+              containerPort: {{ .Values.dummyprofileservice.database.port }}
+              protocol: TCP
+      volumes:
+      - name: database-migrations
+        configMap:
+          name: sql-configmap

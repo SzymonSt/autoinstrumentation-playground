@@ -3,3 +3,8 @@ asyncio
 protobuf
 python-dotenv
 psycopg2
+opentelemetry-distro
+opentelemetry-exporter-otlp-proto-http
+opentelemetry-instrumentation-grpc
+opentelemetry-sdk
+opentelemetry-api

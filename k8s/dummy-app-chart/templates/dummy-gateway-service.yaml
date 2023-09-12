@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.dummy-gateway.name }}-service
+  name: {{ .Values.dummygateway.name }}-service
   namespace: {{ .Values.namespace }}
-  {{- with .Values.dummy-gateway.labels }}
+  {{- with .Values.dummygateway.labels }}
   labels:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.dummy-gateway.port }}
-      targetPort: {{ .Values.dummy-gateway.port }}
+    - port: {{ .Values.dummygateway.port }}
+      targetPort: {{ .Values.dummygateway.port }}
       protocol: TCP
-  {{- with .Values.dummy-gateway.labels }}
+  {{- with .Values.dummygateway.labels }}
   selector:
     {{- toYaml . | nindent 4 }}
   {{- end }}

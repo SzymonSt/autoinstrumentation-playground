@@ -8,6 +8,5 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app.kubernetes.io/instance: obs
-    app.kubernetes.io/name: odigos
+    app: odigos-ui
   type: LoadBalancer

@@ -15,7 +15,7 @@ data:
   relay: |
     exporters:
       jaeger:
-        endpoint: '{{ .Release.Name }}-jaeger-operator-jaeger-collector-headless.{{ .Release.Namespace }}.svc.cluster.local:14250'
+        endpoint: '{{ .Release.Name }}-jaeger-collector.{{ .Release.Namespace }}.svc.cluster.local:14250'
         tls:
           insecure: true
       logging: {}

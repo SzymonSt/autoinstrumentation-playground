@@ -1,7 +1,7 @@
 namespace: dummy-app-development
 
-dummy-gateway:
-  deployment: dummy-gateway
+dummygateway:
+  name: dummy-gateway
   image: 322456/dummy-gateway-remote:latest
   replicas: 1
   port: 80
@@ -9,20 +9,32 @@ dummy-gateway:
     app: dummy-gateway
     env: development
 
-dummy-score-service:
-  deployment: dummy-score-service
-  image: 322456/dummy-score-service:latest
+dummyscoreservice:
+  name: dummy-score-service
+  image: 322456/dummy-score-service:0.2
   replicas: 1
   port: 8081
   labels:
     app: dummy-score-service
     env: development
+  database:
+    image:  mongo:latest
+    port: 27017
+    labels:
+      app: dummy-score-service-database
+      env: development
 
-dummy-profile-service:
-  deployment: dummy-profile-service
+dummyprofileservice:
+  name: dummy-profile-service
   image: 322456/dummy-profile-service-remote:latest
   replicas: 1
   port: 8089
   labels:
     app: dummy-profile-service
     env: development
+  database:
+    image: postgres:latest
+    port: 5432
+    labels:
+      app: dummy-score-service-database
+      env: development

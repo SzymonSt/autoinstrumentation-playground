@@ -8,5 +8,8 @@ dependencies:
 - name: opentelemetry-collector
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   version: 0.62.2
-digest: sha256:78660a2a01780abcfbddb1b5d9a01c43b961a2d004c60cb43372cf942ed8fcae
-generated: "2023-09-11T22:37:41.3322524+02:00"
+- name: odigos
+  repository: https://keyval-dev.github.io/odigos-charts
+  version: 0.2.39
+digest: sha256:af8a28af041d8c824e7e87514a7fd66ab2f4844eefd6424770b413c756b43698
+generated: "2023-09-12T18:32:10.894326+02:00"
