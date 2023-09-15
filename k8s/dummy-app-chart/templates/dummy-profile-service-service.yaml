@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.dummyprofileservice.name }}-service
+  namespace: {{ .Values.namespace }}
+  {{- with .Values.dummyprofileservice.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.dummyprofileservice.port }}
+      targetPort: {{ .Values.dummyprofileservice.port }}
+      protocol: TCP
+  {{- with .Values.dummyprofileservice.labels }}
+  selector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

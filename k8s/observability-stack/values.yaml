@@ -1,0 +1,70 @@
+jaeger-operator:
+  enabled: true
+  jaeger:
+    create: false
+
+jaeger:
+  namespace: "observability-stack"
+  allInOne:
+    enabled: true
+
+  agent:
+    enabled: false
+  collector:
+    enabled: false
+  query:
+    enabled: false
+
+prometheus:
+  enabled: true
+  forceNamespace: "observability-stack"
+  alertmanager:
+    enabled: false
+  prometheus-node-exporter:
+    enabled: false
+  prometheus-pushgateway:
+    enabled: false
+
+opentelemetry-collector:
+  enabled: true
+  mode: "deployment"
+  config:
+    exporters:
+      jaeger:
+        endpoint: '{{ .Release.Name }}-jaeger-collector.{{ .Release.Namespace }}.svc.cluster.local:14250'
+        tls:
+          insecure: true
+      logging:
+    extensions:
+      health_check: {}
+    processors:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: "0.0.0.0:4317"
+          http:
+            endpoint: "0.0.0.0:4318"
+            cors:
+              allowed_origins:
+              - '*'
+    service:
+      telemetry: {}
+      extensions: [health_check]
+      pipelines:
+        logs:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: []
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [jaeger]
+
+odigos:
+  enabled: true
+

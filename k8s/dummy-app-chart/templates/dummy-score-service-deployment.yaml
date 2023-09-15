@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.dummyscoreservice.name }}
+  namespace: {{ .Values.namespace }}
+  {{- with .Values.dummyscoreservice.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.dummyscoreservice.replicaCount }}
+  selector:
+    {{- with .Values.dummyscoreservice.labels }}
+    matchLabels:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  template:
+    metadata:
+      {{- with .Values.dummyscoreservice.labels }}
+      labels:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+    spec:
+      containers:
+        - name: {{ .Values.dummyscoreservice.name }}
+          image: {{ .Values.dummyscoreservice.image }}
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: {{ .Values.dummyscoreservice.port }}
+              protocol: TCP

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.dummyscoreservice.name }}-service
+  namespace: {{ .Values.namespace }}
+  {{- with .Values.dummyscoreservice.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.dummyscoreservice.port }}
+      targetPort: {{ .Values.dummyscoreservice.port }}
+      protocol: TCP
+  {{- with .Values.dummyscoreservice.labels }}
+  selector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
