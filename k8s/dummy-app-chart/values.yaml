@@ -11,7 +11,7 @@ dummygateway:
 
 dummyscoreservice:
   name: dummy-score-service
-  image: 322456/dummy-score-service:0.2
+  image: 322456/dummy-score-service-remote:latest
   replicas: 1
   port: 8081
   labels:
