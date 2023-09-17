@@ -3,7 +3,8 @@
 > [!WARNING]
 > This is not a setup meant for production use. It is not secure and should not be used to any other purpose than testing and learning.
 ## Application architecture
-![image](https://github.com/SzymonSt/autoinstrumentation-playground/assets/48925621/4c76cf74-eab0-49ba-9f44-d5ab5e796ae3)
+![image](https://github.com/SzymonSt/autoinstrumentation-playground/assets/48925621/8d3b18cc-d87d-4a3d-8fb7-79b9ad1bd5a7)
+
 
 ## Running instrumented application locally
 > [!IMPORTANT]
