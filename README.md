@@ -8,7 +8,7 @@
 
 ## Running instrumented application locally
 > [!IMPORTANT]
-> If you aren't doing any changes to the code, you can skip the build step and use the prebuilt images from docker hub.
+> If you aren't doing any changes to the code, you can skip the build step and use the prebuilt images from [docker hub](https://hub.docker.com/search?q=322456).
 
 > ### dummy-gateway
 > _./dummy-gateway/appsettings.json_ <br>
